@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88337a197bd9098ea3816ea068857e9c",
+    "content-hash": "6a159114e7357cb04af0d6396123ba5e",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -8637,6 +8637,35 @@
                 "source": "https://github.com/wilderborn/partyline/tree/1.0.2"
             },
             "time": "2022-12-14T18:38:34+00:00"
+        },
+        {
+            "name": "woutermenno/rating",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "addons/woutermenno/rating",
+                "reference": "756bd6c8f7d9de57020a37448fc1b2c0591cd727"
+            },
+            "type": "library",
+            "extra": {
+                "statamic": {
+                    "name": "Rating",
+                    "description": "Rating addon"
+                },
+                "laravel": {
+                    "providers": [
+                        "Woutermenno\\Rating\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Woutermenno\\Rating\\": "src"
+                }
+            },
+            "transport-options": {
+                "relative": true
+            }
         }
     ],
     "packages-dev": [
@@ -11166,5 +11195,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
