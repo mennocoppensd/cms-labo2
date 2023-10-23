@@ -1,11 +1,15 @@
-
-
 .star {
-  margin: 1rem;
-  font-size: 2rem;
-  color: gold;
-  background-color: transparent;
-  border: none;
+  font-size: 30px;
+  color: gray;
   cursor: pointer;
 }
 
+.rating:hover .star,
+.rating .star.active {
+  color: gold;
+}
+
+.rating:hover .star:hover ~ .star
+ {
+  color: gray;
+}
