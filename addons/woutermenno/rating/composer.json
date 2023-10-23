@@ -1,0 +1,19 @@
+{
+    "name": "woutermenno/rating",
+    "autoload": {
+        "psr-4": {
+            "Woutermenno\\Rating\\": "src"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Rating",
+            "description": "Rating addon"
+        },
+        "laravel": {
+            "providers": [
+                "Woutermenno\\Rating\\ServiceProvider"
+            ]
+        }
+    }
+}
