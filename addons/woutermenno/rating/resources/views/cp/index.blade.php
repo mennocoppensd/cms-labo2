@@ -11,7 +11,7 @@
     @csrf
 
     <label for="rating">Select Rating:</label>
-    <select name="rating" id="rating">
+    <select name="rating" id="starContainer">
         <option value="1">&#9733;</option>
         <option value="2">&#9733;&#9733;</option>
         <option value="3">&#9733;&#9733;&#9733;</option>
@@ -20,7 +20,7 @@
     </select>
 
     <button type="submit" class="btn-primary">Save</button>
-</form>
+    </form>
 
 
 @endsection

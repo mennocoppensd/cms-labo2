@@ -33,16 +33,25 @@ class RatingSettingsController extends Controller
 
     public function store(Request $request)
     {
-        // kleur uit request halen
+        // rating uit request halen
         $rating = $request->input('rating');
+    
+        // YAML file path
+        $filePath = resource_path('rating/ratings.yaml');
+    
+       
+        $existingRatings = Yaml::parse(file_get_contents($filePath));
 
-        // settings opslaan
-        $ratings = YAML::dump([
-            'rating' => $rating
-        ]);
 
-        // settings opslaan in file
-        file_put_contents(resource_path('rating/ratings.yaml'), $ratings);
+        // Add the new rating to the existing ratings array
+        $existingRatings['ratings'][] = $rating;
+
+        // Dump the updated ratings to YAML format
+        $updatedRatings = Yaml::dump($existingRatings);
+
+        // Write the updated content back to the file
+        file_put_contents($filePath, $updatedRatings);
+
     }
 
 }
