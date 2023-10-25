@@ -9,6 +9,8 @@ Route::get('/rating', [RatingSettingsController::class, 'index']
 Route::get('rating/add/{collection}', [RatingSettingsController::class, 'add']
 )->name('rating.add');
 
+Route::post('/rating', [RatingSettingsController::class, 'store'])->name('rating-addon.store');
+
 // Route::name('rating.')->group(function () {
 //     Route::get('rating', 'RatingController@index')->name('index');
 //     Route::get('rating/{id}', 'RatingController@show')->name('show');
