@@ -3,7 +3,6 @@
 namespace Woutermenno\Rating;
 
 use Statamic\Facades\CP\Nav;
-use Statamic\Facades\Preference;
 use Woutermenno\Rating\Tags\Rating;
 use Statamic\Providers\AddonServiceProvider;
 

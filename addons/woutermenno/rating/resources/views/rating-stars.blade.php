@@ -1,4 +1,6 @@
-@extends('statamic::layout')
+<!-- FILEPATH: /c:/Users/tackw/cms/labo-2-statamic/addons/woutermenno/rating/resources/views/rating.antlers.html -->
+
+
 @section('title', 'Rating Settings')
 
 
@@ -25,25 +27,3 @@
     <button type="submit" class="btn-primary">Save</button>
 </form>
 
-@if (!empty($ratings))
-    <ul>
-        @foreach($ratings as $rating)
-            <div>
-                Rating: {{ $rating }}
-                <form action="{{ cp_route('delete.rating', ['rating' => $rating]) }}" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="delete-btn">Delete</button>
-                </form>
-            </div>
-        @endforeach
-    </ul>
-        @else
-            <p>No ratings available.</p>
-@endif
-
-<p>Average Rating: {{ $averageRating }}</p>
-
-
-
-@stop

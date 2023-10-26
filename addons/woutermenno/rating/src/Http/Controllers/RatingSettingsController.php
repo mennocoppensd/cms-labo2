@@ -17,9 +17,11 @@ class RatingSettingsController extends Controller
         $ratings = Yaml::parse(file_get_contents($filePath));
     
         return view('rating::cp.index', [
-            'ratings' => $ratings['ratings'] ?? [], // Assuming 'ratings' is the key in your YAML file
+            'ratings' => $ratings['ratings'] ?? [],
+            'averageRating' => $this->getAverageRating(),
         ]);
     }
+    
 
 
     public function store(Request $request)
@@ -47,7 +49,7 @@ class RatingSettingsController extends Controller
         return redirect()->back();
     }
 
-        public function delete($rating)
+    public function delete($rating)
     {
         // YAML file path
         $filePath = resource_path('rating/ratings.yaml');
@@ -55,8 +57,16 @@ class RatingSettingsController extends Controller
         // Read and parse the YAML content
         $ratings = Yaml::parse(file_get_contents($filePath));
 
-        // Remove the specified rating
-        $ratings['ratings'] = array_diff($ratings['ratings'], [$rating]);
+        // Find the index of the specified rating
+        $index = array_search($rating, $ratings['ratings']);
+
+        // If the rating is found, unset that specific index
+        if ($index !== false) {
+            unset($ratings['ratings'][$index]);
+        }
+
+        // Reindex the array to maintain a consecutive index
+        $ratings['ratings'] = array_values($ratings['ratings']);
 
         // Dump the updated ratings to YAML format
         $updatedRatings = Yaml::dump($ratings);
@@ -68,6 +78,38 @@ class RatingSettingsController extends Controller
         return redirect()->back();
     }
 
+    public function getAverageRating()
+    {
+        // YAML file path
+        $filePath = resource_path('rating/ratings.yaml');
 
+        // Read and parse the YAML content
+        $ratings = Yaml::parse(file_get_contents($filePath));
 
+        // Check if there are any ratings
+        if (!empty($ratings['ratings'])) {
+            // Calculate the sum of all ratings
+            $totalRating = array_sum($ratings['ratings']);
+
+            // Calculate the total number of ratings
+            $totalRatingsCount = count($ratings['ratings']);
+
+            // Calculate the average rating
+            $averageRating = $totalRating / $totalRatingsCount;
+
+            // You can round the average to a certain number of decimal places if needed
+            $averageRating = round($averageRating, 2);
+
+            return $averageRating;
+        } else {
+            // Return a default value or handle the case when there are no ratings
+            return 0;
+        }
+    }
+
+    
 }
+
+
+
+

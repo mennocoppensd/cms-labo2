@@ -13,11 +13,10 @@ Route::get('/rating', [RatingSettingsController::class, 'index']
 // make a post
 Route::post('/rating', [RatingSettingsController::class, 'store'])->name('rating-addon.store');
 
-// delete a route
+// delete a rating  route
 Route::delete('/delete-rating/{rating}', [RatingSettingsController::class, 'delete'])->name('delete.rating');
 
-
-
+// get average rating route
 
 
 // Route::name('rating.')->group(function () {
