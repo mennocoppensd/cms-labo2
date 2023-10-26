@@ -12,42 +12,58 @@ class RatingSettingsController extends Controller
     {
         // YAML file path
         $filePath = resource_path('rating/ratings.yaml');
-    
+
         // Read and parse the YAML content
         $ratings = Yaml::parse(file_get_contents($filePath));
-    
+
         return view('rating::cp.index', [
             'ratings' => $ratings['ratings'] ?? [],
             'averageRating' => $this->getAverageRating(),
         ]);
     }
-    
+
 
 
     public function store(Request $request)
     {
-        // rating uit request halen
         $rating = $request->input('rating');
-    
-        // YAML file path
-        $filePath = resource_path('rating/ratings.yaml');
-    
-       
-        $existingRatings = Yaml::parse(file_get_contents($filePath));
+        $entryId = $request->input('entry_id'); // Assuming 'id' is the field name for entry ID
 
+        // Check if the user has already liked this entry
+        if (! $this->hasLiked($entryId)) {
+            // YAML file path
+            $filePath = resource_path('rating/ratings.yaml');
 
-        // Add the new rating to the existing ratings array
-        $existingRatings['ratings'][] = $rating;
+            $existingRatings = Yaml::parse(file_get_contents($filePath));
 
-        // Dump the updated ratings to YAML format
-        $updatedRatings = Yaml::dump($existingRatings);
+            // Add the new rating to the existing ratings array
+            $existingRatings['ratings'][] = $rating;
 
-        // Write the updated content back to the file
-        file_put_contents($filePath, $updatedRatings);
+            // Dump the updated ratings to YAML format
+            $updatedRatings = Yaml::dump($existingRatings);
 
-        // Redirect back to the index page
-        return redirect()->back();
+            // Write the updated content back to the file
+            file_put_contents($filePath, $updatedRatings);
+
+            // Update local storage to indicate that the user has liked this entry
+            echo '<script type="text/javascript">localStorage.setItem(`liked_'.$entryId.'`, true);</script>';
+
+            // Redirect back to the index page or return a JSON response
+            return redirect()->back();
+        } else {
+            return response()->json(['message' => 'You have already liked this entry.'], 422);
+        }
     }
+
+    private function hasLiked($entryId)
+    {
+        if (!$entryId) {
+            return false; // No entryId provided, return false
+        }
+
+        return isset($_COOKIE['liked_'.$entryId]) && $_COOKIE['liked_'.$entryId]; // Check if the entry has been liked via cookie
+    }
+
 
     public function delete($rating)
     {
@@ -107,9 +123,6 @@ class RatingSettingsController extends Controller
         }
     }
 
-    
+
 }
-
-
-
 

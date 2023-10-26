@@ -9,7 +9,8 @@
     <h1 class="">Rating Settings</h1>
 </div>
 
-<form action="{{ cp_route('rating-addon.store') }}" method="POST">
+<form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}">
+
     @csrf
 
     <label for="rating">Select Rating:</label>

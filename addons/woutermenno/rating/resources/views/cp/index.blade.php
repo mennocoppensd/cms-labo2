@@ -7,7 +7,8 @@
     <h1 class="">Rating Settings</h1>
 </div>
 
-<form action="{{ cp_route('rating-addon.store') }}" method="POST">
+<form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}">
+
     @csrf
 
     <label for="rating">Select Rating:</label>
@@ -21,8 +22,8 @@
 
     <!-- Add an input field for the rating -->
     <input type="hidden" name="rating" id="rating" value="">
-
-    <button type="submit" class="btn-primary">Save</button>
+    <div id="feedbackMessage" class="alert"></div>
+    <button type="submit" class="btn-primary">Post rating</button>
 </form>
 
 @if (!empty($ratings))
