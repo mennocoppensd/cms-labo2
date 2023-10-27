@@ -6,6 +6,26 @@ namespace Woutermenno\Rating\Tags;
 use Statamic\Tags\Tags;
 
 class Rating extends Tags {
+
+  private $ip_address;
+  private $ip_data;
+
+  public function __construct()
+  {
+
+      $this->ip_address = request()->ip();
+
+      // $this->ip_address = '80.40.0.7';
+
+      $api_url = 'http://ip-api.com/json/' . $this->ip_address;
+      // get data
+      $data_json = file_get_contents($api_url);
+      // decode json
+      $data = json_decode($data_json);
+      //set data
+      $this->ip_data = $data;
+  }
+
   /**
   * The {{ rating }} tag.
   *
@@ -13,9 +33,11 @@ class Rating extends Tags {
   */
   public function index() {
     return view('rating::rating-stars', [
-      'foo' => 'bar',
-    ]);
+      'ip_address' => $this->ip_address,
+  ]);
+  
   }
+
 
   /**
    * The {{ rating:example }} tag.
@@ -36,30 +58,3 @@ class Rating extends Tags {
 
 }
 
-
-
-
-
-// class Rating extends Tags
-// {
-//   /**
-//    * The {{ rating }} tag.
-//    *
-//    * @return string
-//    */
-//   public function index()
-//   {
-//     $rating = $this->params->get('value', 0);
-//     $stars = '';
-
-//     for ($i = 1; $i <= 5; $i++) {
-//       if ($i <= $rating) {
-//         $stars .= '<i class="fas fa-star"></i>';
-//       } else {
-//         $stars .= '<i class="far fa-star"></i>';
-//       }
-//     }
-
-//     return $stars;
-//   }
-// }

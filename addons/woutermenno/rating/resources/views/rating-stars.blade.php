@@ -28,3 +28,4 @@
     <button type="submit" class="btn-primary">Save</button>
 </form>
 
+{{ $ip_address }}
