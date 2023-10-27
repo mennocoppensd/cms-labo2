@@ -17,6 +17,10 @@ Route::post('/rating', [RatingSettingsController::class, 'store'])->name('rating
 Route::delete('/delete-rating/{rating}', [RatingSettingsController::class, 'delete'])->name('delete.rating');
 
 // get average rating route
+// edit a rating route
+Route::get('/edit-rating/{rating}', [RatingSettingsController::class, 'edit'])->name('edit.rating');
+
+Route::put('/update-rating/{rating}', [RatingSettingsController::class, 'update'])->name('update.rating');
 
 
 // Route::name('rating.')->group(function () {

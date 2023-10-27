@@ -22,15 +22,15 @@ class RatingSettingsController extends Controller
         ]);
     }
 
-
-
     public function store(Request $request)
     {
+        $ipAddress = request()->ip();
         $rating = $request->input('rating');
-        $entryId = $request->input('entry_id'); // Assuming 'id' is the field name for entry ID
+        $entryId = $request->input('entry_id');
 
-        // Check if the user has already liked this entry
-        if (! $this->hasLiked($entryId)) {
+        $alreadyRated = $this->hasRated($entryId, $ipAddress);
+
+        if (!$alreadyRated) {
             // YAML file path
             $filePath = resource_path('rating/ratings.yaml');
 
@@ -38,6 +38,9 @@ class RatingSettingsController extends Controller
 
             // Add the new rating to the existing ratings array
             $existingRatings['ratings'][] = $rating;
+
+            // Add the IP address to the associated entry's ratings
+            $existingRatings['ip_ratings'][$entryId][] = $ipAddress;
 
             // Dump the updated ratings to YAML format
             $updatedRatings = Yaml::dump($existingRatings);
@@ -51,19 +54,22 @@ class RatingSettingsController extends Controller
             // Redirect back to the index page or return a JSON response
             return redirect()->back();
         } else {
-            return response()->json(['message' => 'You have already liked this entry.'], 422);
+            return response()->json(['message' => 'You have already rated this entry.'], 422);
         }
     }
 
-    private function hasLiked($entryId)
+    private function hasRated($entryId, $ipAddress)
     {
         if (!$entryId) {
-            return false; // No entryId provided, return false
+            return false;
         }
 
-        return isset($_COOKIE['liked_'.$entryId]) && $_COOKIE['liked_'.$entryId]; // Check if the entry has been liked via cookie
-    }
+        // Load existing ratings from YAML file
+        $filePath = resource_path('rating/ratings.yaml');
+        $ratings = Yaml::parse(file_get_contents($filePath));
 
+        return in_array($ipAddress, $ratings['ip_ratings'][$entryId] ?? []);
+    }
 
     public function delete($rating)
     {
@@ -94,6 +100,74 @@ class RatingSettingsController extends Controller
         return redirect()->back();
     }
 
+    public function edit($rating)
+    {
+        // YAML file path
+        $filePath = resource_path('rating/ratings.yaml');
+
+        // Read and parse the YAML content
+        $ratings = Yaml::parse(file_get_contents($filePath));
+
+        // Check if the rating exists
+        if (in_array($rating, $ratings['ratings'])) {
+            return view('rating::cp.edit', [
+                'rating' => $rating,
+            ]);
+        } else {
+            // Handle the case when the rating does not exist
+            abort(404);
+        }
+    }
+
+    public function update(Request $request, $rating)
+    {
+        // Get the new rating from the request
+        $newRating = $request->input('new_rating');
+
+        // YAML file path
+        $filePath = resource_path('rating/ratings.yaml');
+
+        // Read and parse the YAML content
+        $ratings = Yaml::parse(file_get_contents($filePath));
+
+        // Check if the rating exists
+        if (in_array($rating, $ratings['ratings'])) {
+            // Find the index of the specified rating
+            $index = array_search($rating, $ratings['ratings']);
+
+            // If the rating is found, update it with the new rating
+            if ($index !== false) {
+                $ratings['ratings'][$index] = $newRating;
+            }
+
+            // Dump the updated ratings to YAML format
+            $updatedRatings = Yaml::dump($ratings);
+
+            // Write the updated content back to the file
+            file_put_contents($filePath, $updatedRatings);
+
+            // Redirect back to the index page or wherever you want after updating
+            return view('rating::cp.index', [
+                'ratings' => $ratings['ratings'] ?? [],
+                'averageRating' => $this->getAverageRating(),
+            ]);
+        } else {
+            // Handle the case when the rating does not exist
+            abort(404);
+        }
+    }
+
+
+
+    // private function canDeleteRating($rating, $ipAddress)
+    // {
+    //     // Load existing ratings from YAML file
+    //     $filePath = resource_path('rating/ratings.yaml');
+    //     $ratings = Yaml::parse(file_get_contents($filePath));
+
+    //     return in_array($rating, $ratings['ratings']) && in_array($ipAddress, $ratings['ip_ratings'][$rating] ?? []);
+    // }
+
     public function getAverageRating()
     {
         // YAML file path
@@ -122,7 +196,4 @@ class RatingSettingsController extends Controller
             return 0;
         }
     }
-
-
 }
-

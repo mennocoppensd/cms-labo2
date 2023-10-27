@@ -31,6 +31,14 @@
         @foreach($ratings as $rating)
             <div>
                 Rating: {{ $rating }}
+
+                <!-- Edit Form -->
+                <form action="{{ cp_route('edit.rating', ['rating' => $rating]) }}" method="GET" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="edit-btn">Edit</button>
+                </form>
+
+                <!-- Delete Form -->
                 <form action="{{ cp_route('delete.rating', ['rating' => $rating]) }}" method="POST" style="display: inline;">
                     @csrf
                     @method('DELETE')
@@ -39,8 +47,8 @@
             </div>
         @endforeach
     </ul>
-        @else
-            <p>No ratings available.</p>
+@else
+    <p>No ratings available.</p>
 @endif
 
 <p>Average Rating: {{ $averageRating }}</p>
