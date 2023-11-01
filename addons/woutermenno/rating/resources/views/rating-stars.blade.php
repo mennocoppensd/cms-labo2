@@ -3,6 +3,9 @@
 
 @section('title', 'Rating Settings')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/addon.css') }}">
+@endpush
 
 @section('content')
 <div class="mb-3">
@@ -25,7 +28,7 @@
     <!-- Add an input field for the rating -->
     <input type="hidden" name="rating" id="rating" value="">
 
-    <button type="submit" class="btn-primary">Save</button>
+    <button type="submit" class="btn-primary-cp">Post rating</button>
 </form>
 
 {{ $ip_address }}

@@ -35,3 +35,17 @@
   padding: 0.7rem 1rem;
   font-family: 'Courier New', Courier, monospace;
 }
+
+.btn-primary-cp
+ {
+    font-size: 16px;
+    color: white;
+    background-color:rgb(0, 0, 255);
+    margin: 1rem;
+    padding: 0.7rem 1rem;
+    border-radius: 15%;
+ }
+.btn-primary-cp:hover
+ {
+    cursor: pointer;
+ }

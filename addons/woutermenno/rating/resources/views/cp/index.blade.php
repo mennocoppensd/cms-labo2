@@ -1,6 +1,9 @@
 @extends('statamic::layout')
-@section('title', 'Rating Settings')
 
+@section('title', 'Rating Settings')
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/addon.css') }}">
+@endpush
 
 @section('content')
 <div class="mb-3">

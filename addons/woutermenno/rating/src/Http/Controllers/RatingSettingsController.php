@@ -5,6 +5,7 @@ namespace Woutermenno\Rating\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Statamic\Facades\Yaml;
+use Statamic\Facades\Collection;
 
 class RatingSettingsController extends Controller
 {
@@ -157,17 +158,6 @@ class RatingSettingsController extends Controller
         }
     }
 
-
-
-    // private function canDeleteRating($rating, $ipAddress)
-    // {
-    //     // Load existing ratings from YAML file
-    //     $filePath = resource_path('rating/ratings.yaml');
-    //     $ratings = Yaml::parse(file_get_contents($filePath));
-
-    //     return in_array($rating, $ratings['ratings']) && in_array($ipAddress, $ratings['ip_ratings'][$rating] ?? []);
-    // }
-
     public function getAverageRating()
     {
         // YAML file path
@@ -196,4 +186,19 @@ class RatingSettingsController extends Controller
             return 0;
         }
     }
+    public function rating()
+        {
+            $collectionHandle = 'rating';
+
+            // blueprint aanpassen
+            $collection = Collection::findByHandle($collectionHandle);
+            $blueprint = $collection->entryBlueprint();
+
+            $blueprint->ensureField('select', [
+                'type' => 'select',
+                'display' => 'Select'
+            ]);
+            $blueprint->save();
+        }
 }
+
