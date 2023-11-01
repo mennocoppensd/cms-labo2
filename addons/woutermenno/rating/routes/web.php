@@ -5,11 +5,11 @@ use Woutermenno\Rating\Http\Controllers\RatingSettingsController;
 use Woutermenno\Rating\Http\Controllers\WebRatingController;
 
 // get all ratings
-Route::get('/rating', [WebRatingController::class, 'index']
+Route::get('/', [WebRatingController::class, 'index']
 )->name('rating-stars');
 
 //make a post
-Route::post('/rating/store', [WebRatingController::class, 'store'])->name('rating.store');
+Route::post('/store', [WebRatingController::class, 'store'])->name('rating.store');
 
 
 // // make a post

@@ -1,11 +1,7 @@
 <!-- FILEPATH: /c:/Users/tackw/cms/labo-2-statamic/addons/woutermenno/rating/resources/views/rating.antlers.html -->
-
+@extends('statamic::layout')
 
 @section('title', 'Rating')
-
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/addon.css') }}">
-@endpush
 
 @section('content')
 <div class="mb-3">
@@ -28,3 +24,9 @@
     <div id="feedbackMessage" class="alert"></div>
     <button type="submit" class="btn-primary-cp">Post rating</button>
 </form>
+
+<div>
+    Average Rating: {{ $averageRating }}
+</div>
+
+@stop

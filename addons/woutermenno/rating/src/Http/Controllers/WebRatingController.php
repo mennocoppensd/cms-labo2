@@ -15,7 +15,7 @@ class WebRatingController extends Controller
     public function index()
     {
         return view('rating::rating-stars', [
-        
+            'averageRating' => $this->getAverageRating(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class WebRatingController extends Controller
                 'rating' => $request->input('rating'),
                 //didnt work to remove title from blueprint yet
                 'title' => 'rating',
-                // Add any other fields you want to save
+                
             ]);
     
         // Save the entry
@@ -39,6 +39,27 @@ class WebRatingController extends Controller
         return redirect()->back();
     }
     
+    public function getAverageRating()
+    {
+        $collectionHandle = 'ratings'; // Replace with your actual collection handle
+        $collection = Collection::findByHandle($collectionHandle);
+
+        // Get all entries in the 'ratings' collection
+        $entries = Entry::query()->where('collection', $collectionHandle)->get();
+
+        // Calculate the average rating
+        $totalRating = 0;
+        $count = $entries->count();
+
+        foreach ($entries as $entry) {
+            // Assuming 'rating' is the field handle for your rating value
+            $totalRating += $entry->get('rating');
+        }
+
+        $averageRating = ($count > 0) ? $totalRating / $count : 0;
+
+        return $averageRating;
+    }
 
     // public function store(Request $request)
     // {
