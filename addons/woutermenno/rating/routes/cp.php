@@ -23,10 +23,5 @@ Route::get('/edit-rating/{rating}', [RatingSettingsController::class, 'edit'])->
 Route::put('/update-rating/{rating}', [RatingSettingsController::class, 'update'])->name('update.rating');
 
 
-// Route::name('rating.')->group(function () {
-//     Route::get('rating', 'RatingController@index')->name('index');
-//     Route::get('rating/{id}', 'RatingController@show')->name('show');
-//     Route::post('rating', 'RatingController@store')->name('store');
-//     Route::put('rating/{id}', 'RatingController@update')->name('update');
-//     Route::delete('rating/{id}', 'RatingController@destroy')->name('destroy');
-// });
+// add blueprint to collection
+Route::post('/rating/addBlueprint', [RatingSettingsController::class, 'addBlueprint'])->name('rating.addBlueprint');

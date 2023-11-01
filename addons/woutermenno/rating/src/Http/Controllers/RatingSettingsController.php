@@ -186,19 +186,23 @@ class RatingSettingsController extends Controller
             return 0;
         }
     }
-    public function rating()
+
+    public function addBlueprint()
         {
-            $collectionHandle = 'rating';
+            $collectionHandle = 'ratings';
 
             // blueprint aanpassen
             $collection = Collection::findByHandle($collectionHandle);
             $blueprint = $collection->entryBlueprint();
 
-            $blueprint->ensureField('select', [
+            $blueprint->ensureField('rating', [
                 'type' => 'select',
-                'display' => 'Select'
+                'display' => 'Rating'
             ]);
             $blueprint->save();
+
+            // redirect back
+            return redirect()->back();
         }
 }
 

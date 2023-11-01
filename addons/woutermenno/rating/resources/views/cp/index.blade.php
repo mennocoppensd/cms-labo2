@@ -56,6 +56,10 @@
 
 <p>Average Rating: {{ $averageRating }}</p>
 
-
+<!-- Add blueprint to collection -->
+<form action="{{ cp_route('rating.addBlueprint') }}" method="POST" style="display: inline;">
+    @csrf
+    <button type="submit" class="btn-primary">Add blueprint to collection</button>
+</form>
 
 @stop
