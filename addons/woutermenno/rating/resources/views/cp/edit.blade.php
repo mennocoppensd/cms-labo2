@@ -1,4 +1,11 @@
-<form action="{{ cp_route('update.rating', $rating) }}" method="POST">
+<!-- rating::cp.edit.blade.php -->
+
+@extends('statamic::layout')
+
+@section('title', 'Edit Rating')
+
+@section('content')
+<form action="{{ cp_route('update.rating', ['rating' => $rating]) }}" method="POST">
     @csrf
     @method('PUT')
 
@@ -9,3 +16,5 @@
 
     <button type="submit">Save Changes</button>
 </form>
+
+@endsection

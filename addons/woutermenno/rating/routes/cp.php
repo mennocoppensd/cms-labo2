@@ -13,11 +13,15 @@ Route::post('/rating', [RatingSettingsController::class, 'store'])->name('rating
 
 
 // Delete a rating route
-Route::delete('/delete-rating', [RatingSettingsController::class, 'delete'])->name('delete.rating');
+Route::delete('/rating', [RatingSettingsController::class, 'delete'])->name('delete.rating');
 
 // Get average rating route
 // Edit a rating route
 Route::get('/edit-rating', [RatingSettingsController::class, 'edit'])->name('edit.rating');
+
+// Update a rating route
+Route::put('/rating/{rating}', [RatingSettingsController::class, 'update'])->name('update.rating');
+
 
 
 // add blueprint to collection

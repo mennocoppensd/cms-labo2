@@ -4,6 +4,7 @@ namespace Woutermenno\Rating\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Statamic\Facades\Collection;
 use Statamic\Entries\Entry;
 
@@ -11,7 +12,7 @@ class RatingSettingsController extends Controller
 {
     public function index()
     {
-        $collectionHandle = 'ratings'; // Replace with your actual collection handle
+        $collectionHandle = 'ratings'; 
 
         // Get all entries in the 'ratings' collection
         $entries = Entry::query()->where('collection', $collectionHandle)->get();
@@ -45,31 +46,6 @@ class RatingSettingsController extends Controller
         return redirect()->back();
     }
 
-    // Other methods remain the same
-
-    // private function hasRated($entryId, $ipAddress)
-    // {
-    //     if (!$entryId) {
-    //         return false;
-    //     }
-
-    //     $collectionHandle = 'ratings'; // Replace with your actual collection handle
-
-    //     // Get all entries in the 'ratings' collection for the given entryId
-    //     $entries = Entry::query()
-    //         ->where('collection', $collectionHandle)
-    //         ->where('entry_id', $entryId)
-    //         ->get();
-
-    //     foreach ($entries as $entry) {
-    //         $ipRatings = $entry->get('ip_ratings', []);
-    //         if (in_array($ipAddress, $ipRatings)) {
-    //             return true;
-    //         }
-    //     }
-
-    //     return false;
-    // }
 
     public function delete(Request $request)
     {
@@ -85,9 +61,29 @@ class RatingSettingsController extends Controller
         // Delete the entry if found
         if ($entry) {
             $entry->delete();
+
+            // Redirect back to the index page after updating
+            $collectionHandle = 'ratings'; // Replace with your actual collection handle
+
+            // Get all entries in the 'ratings' collection
+            $entries = Entry::query()->where('collection', $collectionHandle)->get();
+
+            $ratings = $entries->map(function ($entry) {
+                return $entry->get('rating');
+            })->toArray();
+
+            return view('rating::cp.index', [
+                'ratings' => $ratings,
+                'averageRating' => $this->getAverageRating($entries),
+            ]);
+        }else {
+            // Handle the case when the entry does not exist
+            abort(404);
         }
 
-        return redirect()->back();
+
+        
+
     }
 
     public function edit(Request $request)
@@ -110,6 +106,47 @@ class RatingSettingsController extends Controller
             // Handle the case when the entry does not exist
             abort(404);
         }
+    }
+
+        public function update(Request $request, $rating)
+    {
+        // Get the new rating from the request
+        $newRating = $request->input('new_rating');
+        $collectionHandle = 'ratings'; // Replace with your actual collection handle
+
+        // Find the entry in the 'ratings' collection with the given rating
+        $entry = Entry::query()
+            ->where('collection', $collectionHandle)
+            ->where('rating', $rating)
+            ->first();
+
+        // Check if the rating entry exists
+        if ($entry) {
+            // Update the rating value
+            $entry->set('rating', $newRating);
+
+            // Save the updated entry
+            $entry->save();
+
+        } else {
+            // Handle the case when the rating does not exist
+            abort(404);
+        }
+
+        // Redirect back to the index page after updating
+        $collectionHandle = 'ratings'; // Replace with your actual collection handle
+
+        // Get all entries in the 'ratings' collection
+        $entries = Entry::query()->where('collection', $collectionHandle)->get();
+
+        $ratings = $entries->map(function ($entry) {
+            return $entry->get('rating');
+        })->toArray();
+
+        return view('rating::cp.index', [
+            'ratings' => $ratings,
+            'averageRating' => $this->getAverageRating($entries),
+        ]);
     }
 
     // Update the getAverageRating method to accept entries as a parameter

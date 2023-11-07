@@ -18,10 +18,11 @@
     <button type="submit" class="btn-primary">Add blueprint to collection</button>
 </form>
 
-<form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}">
+<h2 class="new-rating" >Add a new rating:</h2>
+<form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}" class="form-rating">
     @csrf
 
-    <label for="rating">Add a new Rating:</label>
+    
     <div class="rating" id="starContainer">
         <span class="star" value="1">&#9733;</span>
         <span class="star" value="2">&#9733;</span>
@@ -32,23 +33,23 @@
 
     <!-- Add an input field for the rating -->
     <input type="hidden" name="rating" id="rating" value="">
-    <div id="feedbackMessage" class="alert"></div>
-    <button type="submit" class="btn-primary">Post rating</button>
+
+    <button type="submit" class="btn-primary post-rating">Post rating</button>
 </form>
 
 <!-- Display all ratings -->
-<h2>All Ratings:</h2>
+<h2 class="all-ratings">All Ratings:</h2>
 @if (!empty($ratings))
     <ul>
         @foreach($ratings as $rating)
-            <div>
-                Rating: {{ $rating }}
+            <div class="container-ratings">
+                <p class="ratings">Rating: {{ $rating }}</p>
              
                <!-- Edit Form -->
                 <form action="{{ cp_route('edit.rating') }}" method="GET" style="display: inline;">
                     @csrf
                     <input type="hidden" name="rating" value="{{ $rating }}">
-                    <button type="submit" class="edit-btn">Edit</button>
+                    <button type="submit" class="btn-primary edit">Edit</button>
                 </form>
 
                 <!-- Delete Form -->
@@ -66,6 +67,6 @@
     <p>No ratings available.</p>
 @endif
 
-<p>Average Rating: {{ $averageRating }}</p>
+<p class="average-rating">Average Rating: {{ $averageRating }}</p>
 
 @stop
