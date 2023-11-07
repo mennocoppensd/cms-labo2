@@ -9,14 +9,10 @@
 
 @section('content')
 <div class="mb-3">
-    <h1 class="">Rating Settings</h1>
+    <h1 class="title">Rating Settings</h1>
 </div>
 
-<!-- Add blueprint to collection -->
-<form action="{{ cp_route('rating.addBlueprint') }}" method="POST" style="display: inline;">
-    @csrf
-    <button type="submit" class="btn-primary">Add blueprint to collection</button>
-</form>
+
 
 <h2 class="new-rating" >Add a new rating:</h2>
 <form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}" class="form-rating">
@@ -36,6 +32,7 @@
 
     <button type="submit" class="btn-primary post-rating">Post rating</button>
 </form>
+<div id="feedbackMessage" class="alert"></div>
 
 <!-- Display all ratings -->
 <h2 class="all-ratings">All Ratings:</h2>
@@ -69,4 +66,9 @@
 
 <p class="average-rating">Average Rating: {{ $averageRating }}</p>
 
+<!-- Add blueprint to collection -->
+<form action="{{ cp_route('rating.add-blueprint') }}" method="POST" >
+    @csrf
+    <button type="submit" class="btn-primary">Add blueprint to collection</button>
+</form>
 @stop

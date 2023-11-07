@@ -134,19 +134,19 @@ class RatingSettingsController extends Controller
         }
 
         // Redirect back to the index page after updating
-        $collectionHandle = 'ratings'; // Replace with your actual collection handle
+                $collectionHandle = 'ratings'; // Replace with your actual collection handle
 
-        // Get all entries in the 'ratings' collection
-        $entries = Entry::query()->where('collection', $collectionHandle)->get();
+                // Get all entries in the 'ratings' collection
+                $entries = Entry::query()->where('collection', $collectionHandle)->get();
 
-        $ratings = $entries->map(function ($entry) {
-            return $entry->get('rating');
-        })->toArray();
+                $ratings = $entries->map(function ($entry) {
+                    return $entry->get('rating');
+                })->toArray();
 
-        return view('rating::cp.index', [
-            'ratings' => $ratings,
-            'averageRating' => $this->getAverageRating($entries),
-        ]);
+                return view('rating::cp.index', [
+                    'ratings' => $ratings,
+                    'averageRating' => $this->getAverageRating($entries),
+                ]);
     }
 
     // Update the getAverageRating method to accept entries as a parameter

@@ -49,47 +49,15 @@ const init = () => {
           const value = clickedStar.getAttribute('value');
           ratingInput.value = value;
 
-          // Check if the entry has been liked via local storage
-          if (!localStorage.getItem(`liked_${entryId}`)) {
-              // Enable the submit button
-              submitButton.disabled = false;
-
-              // Clear the feedback message
-              feedbackMessage.innerText = '';
-          } else {
-              // Display feedback message
-              feedbackMessage.innerText = 'You have already liked this entry.';
-
-          }
+          
       }
   });
 
-  submitButton.addEventListener('click', (event) => {
-     // Check if the entry has been liked via local storage
-     if (!localStorage.getItem(`liked_${entryId}`)) {
-      // Send an AJAX request to notify the server of the like
-      // Update your server-side logic to handle the like
-      // ...
-
-      // Store in local storage to remember the like
-      localStorage.setItem(`liked_${entryId}`, true);
-
-      // Enable the submit button
-      submitButton.disabled = false;
-
-      // Clear the feedback message
-      feedbackMessage.innerText = '';
-  } else {
-      // Display feedback message
+  // disable the submit button if there is a localstorage already
+  if (localStorage.getItem(`liked`)) {
+      submitButton.disabled = true;
       feedbackMessage.innerText = 'You have already liked this entry.';
 
-  }
-});
-
-
-  // disable the submit button if there is a localstorage already
-  if (localStorage.getItem(`liked_${entryId}`)) {
-      submitButton.disabled = true;
   }
 
   stars.forEach((star) => {

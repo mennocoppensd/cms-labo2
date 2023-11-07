@@ -23,25 +23,33 @@ class WebRatingController extends Controller
     ]);
     }
 
-    public function store(Request $request)
-    {
-      
-        // Create a new entry in the 'ratings' collection
-        $collection = Collection::findByHandle('ratings');
-        $entry = Entry::make()
-            ->collection($collection)
-            ->data([
-                'rating' => $request->input('rating'),
-                //didnt work to remove title from blueprint yet
-                'title' => 'rating',
-                
-            ]);
-    
-        // Save the entry
-        $entry->save();
-    
-        return redirect()->back();
-    }
+   public function store(Request $request)
+{
+    // Extract the entry ID from the request
+    $entryId = $request->input('entryId');
+
+    // Check if the entry has already been liked (optional)
+    // You can perform additional checks or validations here
+
+    // Create a new entry in the 'ratings' collection
+    $collection = Collection::findByHandle('ratings');
+    $entry = Entry::make()
+        ->collection($collection)
+        ->data([
+            'rating' => $request->input('rating'),
+            // Add other necessary data
+        ]);
+
+    // Save the entry
+    $entry->save();
+
+    // Generate JavaScript code to set local storage
+    $jsCode = "<script>localStorage.setItem('liked', true);</script>";
+
+    // Return the response with JavaScript code
+    return redirect()->back()->with('jsCode', $jsCode);
+}
+
     
     public function getAverageRating()
     {

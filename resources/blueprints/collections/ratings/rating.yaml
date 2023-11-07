@@ -9,28 +9,8 @@ tabs:
             field:
               type: text
               required: true
-          -
-            handle: rating
-            field:
-              type: select
-              display: Rating
-              instructions_position: above
-              listable: hidden
-              visibility: visible
-              replicator_preview: true
-              options:
-                1: '1'
-                2: '2'
-                3: '3'
-                4: '4'
-                5: '5'
-              taggable: false
-              push_tags: false
-              multiple: false
-              clearable: false
-              searchable: true
-              cast_booleans: false
-              hide_display: false
+              validate:
+                - required
   sidebar:
     display: Sidebar
     sections:

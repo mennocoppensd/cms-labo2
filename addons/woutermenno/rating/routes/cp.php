@@ -25,4 +25,4 @@ Route::put('/rating/{rating}', [RatingSettingsController::class, 'update'])->nam
 
 
 // add blueprint to collection
-Route::post('/rating/addBlueprint', [RatingSettingsController::class, 'addBlueprint'])->name('rating.addBlueprint');
+Route::post('/add-blueprint', [RatingSettingsController::class, 'addBlueprint'])->name('rating.add-blueprint');

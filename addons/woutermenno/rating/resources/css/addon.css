@@ -17,8 +17,9 @@
 .alert {
   font-size: 16px;
   color: rgb(228, 77, 77);
-  margin: 1rem;
-  padding: 0.7rem 1rem;
+  margin-top: 10px;
+  margin-bottom: 20px;
+ 
   font-family: 'Courier New', Courier, monospace;
 }
 
@@ -38,7 +39,7 @@
 
 .form-rating{
   display: flex;
-  margin-bottom: 30px;
+
 }
 
 .post-rating{
@@ -80,3 +81,10 @@
   margin-top: 30px;
   margin-bottom: 30px;
 }
+
+.title{
+  font-size: 35px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+  
