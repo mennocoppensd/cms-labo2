@@ -7,20 +7,17 @@ use Woutermenno\Rating\Http\Controllers\RatingSettingsController;
 Route::get('/rating', [RatingSettingsController::class, 'index']
 )->name('rating.index');
 
-// Route::get('rating/add/{collection}', [RatingSettingsController::class, 'add']
-// )->name('rating.add');
 
 // make a post
 Route::post('/rating', [RatingSettingsController::class, 'store'])->name('rating-addon.store');
 
-// delete a rating  route
-Route::delete('/delete-rating/{rating}', [RatingSettingsController::class, 'delete'])->name('delete.rating');
 
-// get average rating route
-// edit a rating route
-Route::get('/edit-rating/{rating}', [RatingSettingsController::class, 'edit'])->name('edit.rating');
+// Delete a rating route
+Route::delete('/delete-rating', [RatingSettingsController::class, 'delete'])->name('delete.rating');
 
-Route::put('/update-rating/{rating}', [RatingSettingsController::class, 'update'])->name('update.rating');
+// Get average rating route
+// Edit a rating route
+Route::get('/edit-rating', [RatingSettingsController::class, 'edit'])->name('edit.rating');
 
 
 // add blueprint to collection

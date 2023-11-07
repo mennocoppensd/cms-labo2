@@ -1,3 +1,5 @@
+<!-- rating::cp.index.blade.php -->
+
 @extends('statamic::layout')
 
 @section('title', 'Rating Settings')
@@ -10,11 +12,16 @@
     <h1 class="">Rating Settings</h1>
 </div>
 
-<form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}">
+<!-- Add blueprint to collection -->
+<form action="{{ cp_route('rating.addBlueprint') }}" method="POST" style="display: inline;">
+    @csrf
+    <button type="submit" class="btn-primary">Add blueprint to collection</button>
+</form>
 
+<form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}">
     @csrf
 
-    <label for="rating">Select Rating:</label>
+    <label for="rating">Add a new Rating:</label>
     <div class="rating" id="starContainer">
         <span class="star" value="1">&#9733;</span>
         <span class="star" value="2">&#9733;</span>
@@ -29,24 +36,29 @@
     <button type="submit" class="btn-primary">Post rating</button>
 </form>
 
+<!-- Display all ratings -->
+<h2>All Ratings:</h2>
 @if (!empty($ratings))
     <ul>
         @foreach($ratings as $rating)
             <div>
                 Rating: {{ $rating }}
-
-                <!-- Edit Form -->
-                <form action="{{ cp_route('edit.rating', ['rating' => $rating]) }}" method="GET" style="display: inline;">
+             
+               <!-- Edit Form -->
+                <form action="{{ cp_route('edit.rating') }}" method="GET" style="display: inline;">
                     @csrf
+                    <input type="hidden" name="rating" value="{{ $rating }}">
                     <button type="submit" class="edit-btn">Edit</button>
                 </form>
 
                 <!-- Delete Form -->
-                <form action="{{ cp_route('delete.rating', ['rating' => $rating]) }}" method="POST" style="display: inline;">
+                <form action="{{ cp_route('delete.rating') }}" method="POST" style="display: inline;">
                     @csrf
                     @method('DELETE')
+                    <input type="hidden" name="rating" value="{{ $rating }}">
                     <button type="submit" class="delete-btn">Delete</button>
                 </form>
+
             </div>
         @endforeach
     </ul>
@@ -55,11 +67,5 @@
 @endif
 
 <p>Average Rating: {{ $averageRating }}</p>
-
-<!-- Add blueprint to collection -->
-<form action="{{ cp_route('rating.addBlueprint') }}" method="POST" style="display: inline;">
-    @csrf
-    <button type="submit" class="btn-primary">Add blueprint to collection</button>
-</form>
 
 @stop
