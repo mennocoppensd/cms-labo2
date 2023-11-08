@@ -155,3 +155,4 @@
 <div class="average-rating">
     Average rating: {{ $averageRating }}
 </div>
+
