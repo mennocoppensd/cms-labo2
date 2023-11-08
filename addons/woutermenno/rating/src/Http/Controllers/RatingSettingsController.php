@@ -26,7 +26,7 @@ class RatingSettingsController extends Controller
 
         $entryId = (string) Str::uuid();
         $ratingId = (string) Str::uuid();
-        $userId = (string) Str::uuid();
+        $userId = auth()->id();
 
         return view('rating::cp.index', [
             'entries' => $entries,
@@ -44,7 +44,7 @@ class RatingSettingsController extends Controller
     {
         $entryId = (string) Str::uuid();
         $ratingId = (string) Str::uuid();
-        $userId = (string) Str::uuid();
+        $userId = auth()->id();
         $collectionHandle = 'ratings'; // Replace with your actual collection handle
 
         // Create a new entry in the 'ratings' collection

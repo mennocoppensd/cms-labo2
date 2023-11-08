@@ -45,7 +45,7 @@
     <ul>
         @foreach($entries as $entry)
             <div class="container-ratings">
-                <p class="ratings">Rating: {{ $entry->rating }}</p>
+                <p class="ratings"><strong>Rating: </strong> {{ $entry->rating }}</p>
 
                <!-- Edit Form -->
                 <form action="{{ cp_route('edit.rating') }}" method="GET" style="display: inline;">
@@ -62,7 +62,9 @@
                     <button type="submit" class="delete-btn">Delete</button>
                 </form>
 
-                <p class="entries">Entry: {{ $entry->entry_id }}</p>
+                <p class="entries"><strong>Entry ID:</strong> <br>{{ $entry->entry_id }}</p>
+                <p class="ratings"><strong>Rating ID: </strong> <br>{{ $entry->rating_id }}</p>
+                <p class="users"><strong>User ID: </strong> <br> {{ $entry->user_id }}</p>
             </div>
         @endforeach
     </ul>
