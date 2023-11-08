@@ -101,7 +101,9 @@
 </style>
 <form action="{{ route('rating.store') }}" method="POST">
     @csrf
-
+    <input type="hidden" name="rating_id" value="{{ $rating_id }}">
+    <input type="hidden" name="entry_id" value="{{ $entry_id }}">
+    <input type="hidden" name="user_id" value="{{ $user_id }}">
 
     <div class="rating" id="starContainer">
         <span class="star" value="1">&#9733;</span>

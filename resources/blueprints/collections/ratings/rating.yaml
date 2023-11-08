@@ -1,24 +1,29 @@
-tabs:
+sections:
   main:
-    display: Main
-    sections:
+    display: Main Content
+    fields:
       -
-        fields:
-          -
-            handle: title
-            field:
-              type: text
-              required: true
-              validate:
-                - required
-  sidebar:
-    display: Sidebar
-    sections:
+        handle: id
+        field:
+          display: ID
+          type: text
+          readonly: true
+          listable: true
       -
-        fields:
-          -
-            handle: slug
-            field:
-              type: slug
-              localizable: true
-title: Rating
+        handle: rating_id
+        field:
+          display: Rating ID
+          type: text
+          listable: true
+      -
+        handle: user_id
+        field:
+          display: User ID
+          type: text
+          listable: true
+      -
+        handle: entry_id
+        field:
+          display: Entry ID
+          type: text
+          listable: true

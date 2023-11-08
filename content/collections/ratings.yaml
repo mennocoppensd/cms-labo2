@@ -1,4 +1,5 @@
 title: Ratings
+template: ratings/show
 revisions: false
 date_behavior:
   past: public

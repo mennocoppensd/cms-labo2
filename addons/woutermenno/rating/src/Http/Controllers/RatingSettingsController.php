@@ -12,7 +12,9 @@ class RatingSettingsController extends Controller
 {
     public function index()
     {
-        $collectionHandle = 'ratings'; 
+        $collectionHandle = 'ratings';
+
+        $collections = Collection::all();
 
         // Get all entries in the 'ratings' collection
         $entries = Entry::query()->where('collection', $collectionHandle)->get();
@@ -21,14 +23,27 @@ class RatingSettingsController extends Controller
             return $entry->get('rating');
         })->toArray();
 
+        $rating_id = 'rating_id';
+        $entry_id = 'entry_id';
+        $user_id = 'user_id';
+
         return view('rating::cp.index', [
             'ratings' => $ratings,
+            'entries' => $entries,
+            'rating_id' => $rating_id,
+            'entry_id' => $entry_id,
+            'user_id' => $user_id,
             'averageRating' => $this->getAverageRating($entries),
+            'collections' => $collections,
+
         ]);
     }
 
     public function store(Request $request)
     {
+        $ratingId = $request->input('rating_id');
+        $entryId = $request->input('entry_id');
+        $userId = $request->input('user_id');
         $collectionHandle = 'ratings'; // Replace with your actual collection handle
 
         // Create a new entry in the 'ratings' collection
@@ -37,7 +52,9 @@ class RatingSettingsController extends Controller
             ->collection($collection)
             ->data([
                 'rating' => $request->input('rating'),
-                'entry_id' => $request->input('entry_id'), // assuming you have an entry_id field
+                'entry_id' => $entryId,
+                'rating_id' => $ratingId,
+                'user_id' => $userId,
             ]);
 
         // Save the entry
@@ -82,7 +99,7 @@ class RatingSettingsController extends Controller
         }
 
 
-        
+
 
     }
 
@@ -166,22 +183,21 @@ class RatingSettingsController extends Controller
 
 
 
-    public function addBlueprint()
-        {
-            $collectionHandle = 'ratings';
+    public function addBlueprint(Request $request)
+    {
+        $collectionHandle = $request->input('collection_handle');
 
-            // blueprint aanpassen
-            $collection = Collection::findByHandle($collectionHandle);
-            $blueprint = $collection->entryBlueprint();
+        // blueprint aanpassen
+        $collection = Collection::findByHandle($collectionHandle);
+        $blueprint = $collection->entryBlueprint();
 
-            $blueprint->ensureField('rating', [
-                'type' => 'select',
-                'display' => 'Rating'
-            ]);
-            $blueprint->save();
+        $blueprint->ensureField('rating', [
+            'type' => 'select',
+            'display' => 'Rating'
+        ]);
+        $blueprint->save();
 
-            // redirect back
-            return redirect()->back();
-        }
+        // redirect back
+        return redirect()->back();
+    }
 }
-
