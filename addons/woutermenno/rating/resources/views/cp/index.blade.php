@@ -18,7 +18,7 @@
 <form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}" class="form-rating">
     @csrf
 
-    
+
     <div class="rating" id="starContainer">
         <span class="star" value="1">&#9733;</span>
         <span class="star" value="2">&#9733;</span>
@@ -41,7 +41,7 @@
         @foreach($ratings as $rating)
             <div class="container-ratings">
                 <p class="ratings">Rating: {{ $rating }}</p>
-             
+
                <!-- Edit Form -->
                 <form action="{{ cp_route('edit.rating') }}" method="GET" style="display: inline;">
                     @csrf
