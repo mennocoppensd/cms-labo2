@@ -18,9 +18,6 @@
 <h2 class="new-rating" >Add a new rating:</h2>
 <form name="entryId" action="{{ cp_route('rating-addon.store') }}" method="POST" data-id="{{ 'entryId' }}" class="form-rating">
     @csrf
-    <input type="hidden" name="rating_id" value="{{ $rating_id }}">
-    <input type="hidden" name="entry_id" value="{{ $entry_id }}">
-    <input type="hidden" name="user_id" value="{{ $user_id }}">
 
 
     <div class="rating" id="starContainer">
@@ -65,7 +62,7 @@
                     <button type="submit" class="delete-btn">Delete</button>
                 </form>
 
-                <p class="entries">{{ $entry->entry_id }}</p>
+                <p class="entries">Entry: {{ $entry->entry_id }}</p>
             </div>
         @endforeach
     </ul>

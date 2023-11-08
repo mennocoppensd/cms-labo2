@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Statamic\Facades\Collection;
 use Statamic\Entries\Entry;
+use Illuminate\Support\Str;
 
 class RatingSettingsController extends Controller
 {
@@ -23,16 +24,16 @@ class RatingSettingsController extends Controller
             return $entry->get('rating');
         })->toArray();
 
-        $rating_id = 'rating_id';
-        $entry_id = 'entry_id';
-        $user_id = 'user_id';
+        $entryId = (string) Str::uuid();
+        $ratingId = (string) Str::uuid();
+        $userId = (string) Str::uuid();
 
         return view('rating::cp.index', [
-            'ratings' => $ratings,
             'entries' => $entries,
-            'rating_id' => $rating_id,
-            'entry_id' => $entry_id,
-            'user_id' => $user_id,
+            'ratings' => $ratings,
+            'rating_id' => $ratingId,
+            'entry_id' => $entryId,
+            'user_id' => $userId,
             'averageRating' => $this->getAverageRating($entries),
             'collections' => $collections,
 
@@ -41,9 +42,9 @@ class RatingSettingsController extends Controller
 
     public function store(Request $request)
     {
-        $ratingId = $request->input('rating_id');
-        $entryId = $request->input('entry_id');
-        $userId = $request->input('user_id');
+        $entryId = (string) Str::uuid();
+        $ratingId = (string) Str::uuid();
+        $userId = (string) Str::uuid();
         $collectionHandle = 'ratings'; // Replace with your actual collection handle
 
         // Create a new entry in the 'ratings' collection
@@ -90,6 +91,7 @@ class RatingSettingsController extends Controller
             })->toArray();
 
             return view('rating::cp.index', [
+                'entries' => $entries,
                 'ratings' => $ratings,
                 'averageRating' => $this->getAverageRating($entries),
             ]);
@@ -108,6 +110,8 @@ class RatingSettingsController extends Controller
         $rating = $request->input('rating');
         $collectionHandle = 'ratings';
 
+        $entries = Entry::query()->where('collection', $collectionHandle)->get();
+
         // Find the entry in the 'ratings' collection with the given rating
         $entry = Entry::query()
             ->where('collection', $collectionHandle)
@@ -117,6 +121,8 @@ class RatingSettingsController extends Controller
         // Check if the entry exists
         if ($entry) {
             return view('rating::cp.edit', [
+                'entries' => $entries,
+                'entry' => $entry,
                 'rating' => $rating,
             ]);
         } else {
@@ -161,6 +167,7 @@ class RatingSettingsController extends Controller
                 })->toArray();
 
                 return view('rating::cp.index', [
+                    'entries' => $entries,
                     'ratings' => $ratings,
                     'averageRating' => $this->getAverageRating($entries),
                 ]);
